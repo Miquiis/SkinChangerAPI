@@ -14,7 +14,7 @@ public abstract class AbstractClientPlayerEntityMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;")
     private void getLocationSkin(CallbackInfoReturnable<ResourceLocation> cir) {
         AbstractClientPlayerEntity clientPlayer = (AbstractClientPlayerEntity) (Object)this;
-        if (SkinChangerAPI.getPlayerSkin(clientPlayer).equals(SkinChangerAPI.PLAYER_SKIN.getDefaultValueSupplier().get()))
+        if (!SkinChangerAPI.getPlayerSkin(clientPlayer).equals(SkinChangerAPI.PLAYER_SKIN.getDefaultValueSupplier().get()))
         {
             cir.setReturnValue(SkinChangerAPI.getPlayerSkin(clientPlayer));
         }
