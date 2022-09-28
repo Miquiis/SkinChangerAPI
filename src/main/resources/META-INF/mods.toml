@@ -2,18 +2,18 @@ modLoader="javafml"
 loaderVersion="[36,)"
 license="All rights reserved"
 [[mods]]
-modId = "examplemod"
+modId = "skinchangerapi"
 version = "${file.jarVersion}"
-displayName = "Example Mod"
-description = '''Example Mod Description'''
+displayName = "Skin Changer API"
+description = '''Skin Changer API'''
 
-[[dependencies.examplemod]]
+[[dependencies.skinchangerapi]]
     modId="forge"
     mandatory=true
     versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.examplemod]]
+[[dependencies.skinchangerapi]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,1.17)"
