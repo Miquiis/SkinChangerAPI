@@ -15,11 +15,12 @@ public class SkinLocation {
             packetBuffer.writeString(skinLocation.skinId);
             packetBuffer.writeString(skinLocation.skinURL);
             packetBuffer.writeResourceLocation(skinLocation.getSkinLocation());
+            packetBuffer.writeBoolean(skinLocation.isSlim());
         }
 
         @Override
         public SkinLocation read(PacketBuffer packetBuffer) {
-            return new SkinLocation(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readResourceLocation());
+            return new SkinLocation(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readResourceLocation(), packetBuffer.readBoolean());
         }
 
         @Override
@@ -28,13 +29,14 @@ public class SkinLocation {
             compoundNBT.putString("SkinID", skinLocation.getSkinId());
             compoundNBT.putString("SkinURL", skinLocation.getSkinURL());
             compoundNBT.putString("SkinLocation", skinLocation.getSkinLocation().toString());
+            compoundNBT.putBoolean("IsSlim", skinLocation.isSlim());
             return compoundNBT;
         }
 
         @Override
         public SkinLocation read(INBT inbt) {
             CompoundNBT compoundNBT = (CompoundNBT) inbt;
-            return new SkinLocation(compoundNBT.getString("SkinID"), compoundNBT.getString("SkinURL"), new ResourceLocation(compoundNBT.getString("SkinLocation")));
+            return new SkinLocation(compoundNBT.getString("SkinID"), compoundNBT.getString("SkinURL"), new ResourceLocation(compoundNBT.getString("SkinLocation")), compoundNBT.getBoolean("IsSlim"));
         }
     };
 
@@ -43,10 +45,11 @@ public class SkinLocation {
     private final String skinId;
     private String skinURL;
     private final ResourceLocation skinLocation;
+    private final boolean isSlim;
 
     public SkinLocation(String skinId)
     {
-        this(skinId, new ResourceLocation(SkinChangerAPI.MOD_ID, "textures/skins/" + skinId + ".png"));
+        this(skinId, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId + ".png"));
     }
 
     public SkinLocation(String skinId, ResourceLocation skinLocation)
@@ -56,9 +59,20 @@ public class SkinLocation {
 
     public SkinLocation(String skinId, String skinURL, ResourceLocation skinLocation)
     {
+        this(skinId, skinURL, skinLocation, false);
+    }
+
+    public SkinLocation(String skinId, String skinURL, boolean isSlim)
+    {
+        this(skinId, skinURL, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId + ".png"), isSlim);
+    }
+
+    public SkinLocation(String skinId, String skinURL, ResourceLocation skinLocation, boolean isSlim)
+    {
         this.skinId = skinId;
         this.skinLocation = skinLocation;
         this.skinURL = skinURL;
+        this.isSlim = isSlim;
     }
 
     public SkinLocation(String skinId, String skinURL)
@@ -77,5 +91,9 @@ public class SkinLocation {
 
     public String getSkinURL() {
         return skinURL;
+    }
+
+    public boolean isSlim() {
+        return isSlim;
     }
 }

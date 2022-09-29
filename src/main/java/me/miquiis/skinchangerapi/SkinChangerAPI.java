@@ -41,7 +41,6 @@ public class SkinChangerAPI
 
     public static void setPlayerSkin(PlayerEntity player, SkinLocation skinLocation)
     {
-        System.out.println(skinLocation);
         SyncedPlayerData.instance().set(player, PLAYER_SKIN_LOCATION, skinLocation);
     }
 

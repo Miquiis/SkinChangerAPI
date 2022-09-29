@@ -16,6 +16,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayerEntity.class)
 public abstract class AbstractClientPlayerEntityMixin {
 
+    @Inject(at = @At("HEAD"), cancellable = true, method = "getSkinType")
+    private void getSkinType(CallbackInfoReturnable<String> cir)
+    {
+        Minecraft minecraft = Minecraft.getInstance();
+        AbstractClientPlayerEntity clientPlayer = (AbstractClientPlayerEntity) (Object)this;
+        if (!SkinChangerAPI.getPlayerSkin(clientPlayer).getSkinId().isEmpty())
+        {
+            cir.setReturnValue(SkinChangerAPI.getPlayerSkin(clientPlayer).isSlim() ? "slim" : "default");
+        }
+    }
+
     @Inject(at = @At("HEAD"), cancellable = true, method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;")
     private void getLocationSkin(CallbackInfoReturnable<ResourceLocation> cir) {
         Minecraft minecraft = Minecraft.getInstance();
