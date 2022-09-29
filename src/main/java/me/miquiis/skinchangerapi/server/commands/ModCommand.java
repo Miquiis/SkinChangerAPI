@@ -15,7 +15,7 @@ public class ModCommand {
 
     public ModCommand(CommandDispatcher<CommandSource> dispatcher)
     {
-        dispatcher.register(Commands.literal("skinchangerapi")
+        dispatcher.register(Commands.literal("skinchangerapi").requires(commandSource -> commandSource.hasPermissionLevel(1))
                 .then(Commands.literal("load")
                         .then(Commands.argument("url", StringArgumentType.string()).executes(context -> {
                             ServerPlayerEntity serverPlayer = context.getSource().asPlayer();
