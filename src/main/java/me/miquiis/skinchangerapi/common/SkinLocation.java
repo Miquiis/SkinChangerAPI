@@ -49,7 +49,7 @@ public class SkinLocation {
 
     public SkinLocation(String skinId)
     {
-        this(skinId, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId + ".png"));
+        this(skinId, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId.toLowerCase() + ".png"));
     }
 
     public SkinLocation(String skinId, ResourceLocation skinLocation)
@@ -64,7 +64,7 @@ public class SkinLocation {
 
     public SkinLocation(String skinId, String skinURL, boolean isSlim)
     {
-        this(skinId, skinURL, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId + ".png"), isSlim);
+        this(skinId, skinURL, new ResourceLocation(SkinChangerAPI.MOD_ID, "assets/skins/" + skinId.toLowerCase() + ".png"), isSlim);
     }
 
     public SkinLocation(String skinId, String skinURL, ResourceLocation skinLocation, boolean isSlim)

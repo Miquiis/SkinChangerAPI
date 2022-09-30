@@ -77,7 +77,6 @@ dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf('curse.maven:obfuscate-289380:3740120')
-    implementation 'mysql:mysql-connector-java:8.0.30'
 }
 
 mixin {

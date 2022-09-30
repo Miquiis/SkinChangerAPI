@@ -39,7 +39,7 @@ public abstract class AbstractClientPlayerEntityMixin {
                 cir.setReturnValue(playerSkinLocation.getSkinLocation());
                 return;
             } else if (!playerSkinLocation.getSkinURL().isEmpty()){
-                try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, playerSkinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), false, null)) {
+                try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, playerSkinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
                     minecraft.getTextureManager().loadTexture(playerSkinLocation.getSkinLocation(), downloadingTexture);
                 }
             }
