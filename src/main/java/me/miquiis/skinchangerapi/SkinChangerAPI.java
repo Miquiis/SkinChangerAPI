@@ -4,13 +4,17 @@ import com.mrcrayfish.obfuscate.common.data.SyncedDataKey;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import me.miquiis.skinchangerapi.common.SkinLocation;
 import me.miquiis.skinchangerapi.common.ref.ModInformation;
+import me.miquiis.skinchangerapi.server.network.ModNetwork;
+import me.miquiis.skinchangerapi.server.network.messages.LoadSkinPacket;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 @Mod(ModInformation.MOD_ID)
 public class SkinChangerAPI
@@ -31,7 +35,13 @@ public class SkinChangerAPI
 
     private void setup(final FMLCommonSetupEvent event)
     {
+        ModNetwork.init();
         SyncedPlayerData.instance().registerKey(PLAYER_SKIN_LOCATION);
+    }
+
+    public static void loadPlayerSkin(ServerPlayerEntity player, SkinLocation skinLocation)
+    {
+        ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new LoadSkinPacket(skinLocation));
     }
 
     public static void setPlayerSkin(PlayerEntity player, SkinLocation skinLocation)

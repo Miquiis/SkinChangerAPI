@@ -2,6 +2,7 @@ package me.miquiis.skinchangerapi.mixin.client;
 
 import me.miquiis.skinchangerapi.SkinChangerAPI;
 import me.miquiis.skinchangerapi.client.DownloadingTexture;
+import me.miquiis.skinchangerapi.client.SkinChangerAPIClient;
 import me.miquiis.skinchangerapi.common.SkinLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -39,9 +40,7 @@ public abstract class AbstractClientPlayerEntityMixin {
                 cir.setReturnValue(playerSkinLocation.getSkinLocation());
                 return;
             } else if (!playerSkinLocation.getSkinURL().isEmpty()){
-                try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, playerSkinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
-                    minecraft.getTextureManager().loadTexture(playerSkinLocation.getSkinLocation(), downloadingTexture);
-                }
+                SkinChangerAPIClient.loadSkin(playerSkinLocation);
             }
             cir.setReturnValue(playerSkinLocation.getSkinLocation());
             return;
