@@ -116,49 +116,10 @@ public class DownloadingTexture extends SimpleTexture {
 
                   });
                } catch (Exception exception) {
-                  LOGGER.error("Couldn't download http texture", (Throwable)exception);
+                  LOGGER.error("Couldn't download http texture " + this.imageUrl);
                   return;
                }
             }, Util.getServerExecutor());
-//            this.future = CompletableFuture.runAsync(() -> {
-//               HttpURLConnection httpurlconnection = null;
-//               LOGGER.debug("Downloading http texture from {} to {}", this.imageUrl, this.cacheFile);
-//
-//               try {
-//                  httpurlconnection = (HttpURLConnection)(new URL(this.imageUrl)).openConnection(Minecraft.getInstance().getProxy());
-//                  httpurlconnection.setDoInput(true);
-//                  httpurlconnection.setDoOutput(false);
-//                  httpurlconnection.connect();
-//                  if (httpurlconnection.getResponseCode() / 100 == 2) {
-//                     InputStream inputstream;
-//                     if (this.cacheFile != null) {
-//                        FileUtils.copyInputStreamToFile(httpurlconnection.getInputStream(), this.cacheFile);
-//                        inputstream = new FileInputStream(this.cacheFile);
-//                     } else {
-//                        System.out.println("here");
-//                        inputstream = httpurlconnection.getInputStream();
-//                     }
-//
-//                     Minecraft.getInstance().execute(() -> {
-//                        NativeImage nativeimage1 = this.loadTexture(inputstream);
-//                        if (nativeimage1 != null) {
-//                           this.setImage(nativeimage1);
-//                        }
-//
-//                     });
-//                     return;
-//                  }
-//               } catch (Exception exception) {
-//                  LOGGER.error("Couldn't download http texture", (Throwable)exception);
-//                  return;
-//               } finally {
-//                  if (httpurlconnection != null) {
-//                     httpurlconnection.disconnect();
-//                  }
-//
-//               }
-//
-//            }, Util.getServerExecutor());
          }
       }
    }
