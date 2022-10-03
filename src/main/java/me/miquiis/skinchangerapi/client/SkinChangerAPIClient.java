@@ -2,8 +2,14 @@ package me.miquiis.skinchangerapi.client;
 
 import me.miquiis.skinchangerapi.common.SkinLocation;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class SkinChangerAPIClient {
 
@@ -14,9 +20,17 @@ public class SkinChangerAPIClient {
         {
             Texture texture = minecraft.getTextureManager().getTexture(skinLocation.getSkinLocation());
             if (texture == null) {
-                if (!skinLocation.getSkinURL().isEmpty()){
-                    try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, skinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
-                        minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
+                if (!skinLocation.getSkinURL().isEmpty()) {
+                    File skinTextureFile = new File(skinLocation.getSkinURL());
+                    if (!skinTextureFile.exists())
+                    {
+                        try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, skinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
+                            minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
+                        }
+                    } else {
+                        try (LoadingLocalTexture downloadingTexture = new LoadingLocalTexture(null, skinTextureFile, DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
+                            minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
+                        }
                     }
                 }
             }
