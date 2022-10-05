@@ -38,12 +38,9 @@ public abstract class AbstractClientPlayerEntityMixin {
             Texture texture = minecraft.getTextureManager().getTexture(playerSkinLocation.getSkinLocation());
             if (texture != null) {
                 cir.setReturnValue(playerSkinLocation.getSkinLocation());
-                return;
             } else if (!playerSkinLocation.getSkinURL().isEmpty()){
                 SkinChangerAPIClient.loadSkin(playerSkinLocation);
             }
-            cir.setReturnValue(cir.getReturnValue());
-            return;
         }
     }
 
