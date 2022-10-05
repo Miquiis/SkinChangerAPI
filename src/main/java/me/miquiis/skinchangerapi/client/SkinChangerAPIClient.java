@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -20,6 +21,8 @@ public class SkinChangerAPIClient {
         {
             Texture texture = minecraft.getTextureManager().getTexture(skinLocation.getSkinLocation());
             if (texture == null) {
+                // Pre Event
+                if (MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Pre(skinLocation, texture))) return;
                 if (!skinLocation.getSkinURL().isEmpty()) {
                     File skinTextureFile = new File(skinLocation.getSkinURL());
                     if (!skinTextureFile.exists())
@@ -33,6 +36,8 @@ public class SkinChangerAPIClient {
                         }
                     }
                 }
+                MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Post(skinLocation, texture));
+                // Post Event
             }
         }
     }
