@@ -42,7 +42,7 @@ public abstract class AbstractClientPlayerEntityMixin {
             } else if (!playerSkinLocation.getSkinURL().isEmpty()){
                 SkinChangerAPIClient.loadSkin(playerSkinLocation);
             }
-            cir.setReturnValue(playerSkinLocation.getSkinLocation());
+            cir.setReturnValue(cir.getReturnValue());
             return;
         }
     }
