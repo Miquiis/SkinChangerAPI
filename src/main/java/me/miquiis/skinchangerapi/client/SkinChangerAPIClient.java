@@ -20,9 +20,9 @@ public class SkinChangerAPIClient {
         if (!skinLocation.getSkinId().isEmpty())
         {
             Texture texture = minecraft.getTextureManager().getTexture(skinLocation.getSkinLocation());
-            if (MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Pre(skinLocation, texture))) return;
             if (texture == null) {
                 // Pre Event
+                if (MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Pre(skinLocation, texture))) return;
                 if (!skinLocation.getSkinURL().isEmpty()) {
                     File skinTextureFile = new File(skinLocation.getSkinURL());
                     if (!skinTextureFile.exists())
@@ -36,9 +36,9 @@ public class SkinChangerAPIClient {
                         }
                     }
                 }
+                MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Post(skinLocation, texture));
+                // Post Event
             }
-            // Post Event
-            MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Post(skinLocation, texture));
         }
     }
 
