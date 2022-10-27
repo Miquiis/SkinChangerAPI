@@ -16,11 +16,12 @@ public class SkinLocation {
             packetBuffer.writeString(skinLocation.skinURL);
             packetBuffer.writeResourceLocation(skinLocation.getSkinLocation());
             packetBuffer.writeBoolean(skinLocation.isSlim());
+            packetBuffer.writeBoolean(skinLocation.isBaby());
         }
 
         @Override
         public SkinLocation read(PacketBuffer packetBuffer) {
-            return new SkinLocation(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readResourceLocation(), packetBuffer.readBoolean());
+            return new SkinLocation(packetBuffer.readString(), packetBuffer.readString(), packetBuffer.readResourceLocation(), packetBuffer.readBoolean(), packetBuffer.readBoolean());
         }
 
         @Override
@@ -30,13 +31,14 @@ public class SkinLocation {
             compoundNBT.putString("SkinURL", skinLocation.getSkinURL());
             compoundNBT.putString("SkinLocation", skinLocation.getSkinLocation().toString());
             compoundNBT.putBoolean("IsSlim", skinLocation.isSlim());
+            compoundNBT.putBoolean("IsBaby", skinLocation.isBaby());
             return compoundNBT;
         }
 
         @Override
         public SkinLocation read(INBT inbt) {
             CompoundNBT compoundNBT = (CompoundNBT) inbt;
-            return new SkinLocation(compoundNBT.getString("SkinID"), compoundNBT.getString("SkinURL"), new ResourceLocation(compoundNBT.getString("SkinLocation")), compoundNBT.getBoolean("IsSlim"));
+            return new SkinLocation(compoundNBT.getString("SkinID"), compoundNBT.getString("SkinURL"), new ResourceLocation(compoundNBT.getString("SkinLocation")), compoundNBT.getBoolean("IsSlim"), compoundNBT.getBoolean("IsBaby"));
         }
     };
 
@@ -46,6 +48,7 @@ public class SkinLocation {
     private String skinURL;
     private final ResourceLocation skinLocation;
     private final boolean isSlim;
+    private final boolean isBaby;
 
     public SkinLocation(String skinId)
     {
@@ -72,12 +75,23 @@ public class SkinLocation {
         this(skinId, skinURL, generateResourceLocation(skinId), isSlim);
     }
 
+    public SkinLocation(String skinId, String skinURL, boolean isSlim, boolean isBaby)
+    {
+        this(skinId, skinURL, generateResourceLocation(skinId), isSlim, isBaby);
+    }
+
     public SkinLocation(String skinId, String skinURL, ResourceLocation skinLocation, boolean isSlim)
+    {
+        this(skinId, skinURL, skinLocation, isSlim, false);
+    }
+
+    public SkinLocation(String skinId, String skinURL, ResourceLocation skinLocation, boolean isSlim, boolean isBaby)
     {
         this.skinId = skinId;
         this.skinLocation = skinLocation;
         this.skinURL = skinURL;
         this.isSlim = isSlim;
+        this.isBaby = isBaby;
     }
 
     public SkinLocation(String skinId, String skinURL)
@@ -100,5 +114,9 @@ public class SkinLocation {
 
     public boolean isSlim() {
         return isSlim;
+    }
+
+    public boolean isBaby() {
+        return isBaby;
     }
 }
