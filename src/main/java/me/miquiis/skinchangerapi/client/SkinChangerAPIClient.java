@@ -20,25 +20,21 @@ public class SkinChangerAPIClient {
         if (!skinLocation.getSkinId().isEmpty())
         {
             Texture texture = minecraft.getTextureManager().getTexture(skinLocation.getSkinLocation());
-            if (texture == null) {
-                // Pre Event
-                if (MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Pre(skinLocation, texture))) return;
-                if (!skinLocation.getSkinURL().isEmpty()) {
-                    File skinTextureFile = new File(skinLocation.getSkinURL());
-                    if (!skinTextureFile.exists())
-                    {
-                        try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, skinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
-                            minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
-                        }
-                    } else {
-                        try (LoadingLocalTexture downloadingTexture = new LoadingLocalTexture(null, skinTextureFile, DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
-                            minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
-                        }
+            if (MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Pre(skinLocation, texture))) return;
+            if (!skinLocation.getSkinURL().isEmpty()) {
+                File skinTextureFile = new File(skinLocation.getSkinURL());
+                if (!skinTextureFile.exists())
+                {
+                    try (DownloadingTexture downloadingTexture = new DownloadingTexture(null, skinLocation.getSkinURL(), DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
+                        minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
+                    }
+                } else {
+                    try (LoadingLocalTexture downloadingTexture = new LoadingLocalTexture(null, skinTextureFile, DefaultPlayerSkin.getDefaultSkinLegacy(), true, null)) {
+                        minecraft.getTextureManager().loadTexture(skinLocation.getSkinLocation(), downloadingTexture);
                     }
                 }
-                MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Post(skinLocation, texture));
-                // Post Event
             }
+            MinecraftForge.EVENT_BUS.post(new LoadSkinTextureEvent.Post(skinLocation, texture));
         }
     }
 
