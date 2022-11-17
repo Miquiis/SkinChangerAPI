@@ -20,7 +20,6 @@ public abstract class AbstractClientPlayerEntityMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "getSkinType")
     private void getSkinType(CallbackInfoReturnable<String> cir)
     {
-        Minecraft minecraft = Minecraft.getInstance();
         AbstractClientPlayerEntity clientPlayer = (AbstractClientPlayerEntity) (Object)this;
         if (!SkinChangerAPI.getPlayerSkin(clientPlayer).getSkinId().isEmpty())
         {
@@ -40,7 +39,9 @@ public abstract class AbstractClientPlayerEntityMixin {
                 cir.setReturnValue(playerSkinLocation.getSkinLocation());
             } else if (!playerSkinLocation.getSkinURL().isEmpty()){
                 SkinChangerAPIClient.loadSkin(playerSkinLocation);
+                return;
             }
+            cir.setReturnValue(playerSkinLocation.getSkinLocation());
         }
     }
 
