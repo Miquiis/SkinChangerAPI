@@ -9,6 +9,9 @@ import java.net.URI;
 import java.net.URLConnection;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
+
+import me.miquiis.skinchangerapi.SkinChangerAPI;
+import me.miquiis.skinchangerapi.client.cache.TextureCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -113,7 +116,11 @@ public class DownloadingTexture extends SimpleTexture {
                      if (nativeimage1 != null) {
                         this.setImage(nativeimage1);
                      }
-
+                     try {
+                        SkinChangerAPI.getInstance().getClientTextureCache().cache(new TextureCache(imageUrl, nativeimage1.getBytes()), cached -> cached.getValue().getUrl().equals(imageUrl));
+                     } catch (IOException e) {
+                        throw new RuntimeException(e);
+                     }
                   });
                } catch (Exception exception) {
                   LOGGER.error("Couldn't download http texture " + this.imageUrl);
